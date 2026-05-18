@@ -6,6 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const PORT = process.env.PORT || 5000;
+
 let goals = [
   {
     id: 1,
@@ -17,6 +19,11 @@ let goals = [
     achievement: "₹7 Lakh",
   },
 ];
+
+// ROOT ROUTE
+app.get("/", (req, res) => {
+  res.send("Goal Tracker Backend Running");
+});
 
 // LOGIN
 app.post("/login", (req, res) => {
@@ -53,6 +60,7 @@ app.get("/reports", (req, res) => {
     pending: 7,
   });
 });
+
 // CHECK-IN COMMENTS
 app.post("/checkin", (req, res) => {
   const { comment } = req.body;
@@ -63,6 +71,10 @@ app.post("/checkin", (req, res) => {
     comment,
   });
 });
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+
+// START SERVER
+app.listen(PORT, () => {
+  console.log(
+    `Server running on port ${PORT}`
+  );
 });
