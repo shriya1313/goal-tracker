@@ -1,22 +1,37 @@
 import { useEffect, useState } from "react";
 
-function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [role, setRole] = useState("Employee");
+const API =
+  "https://goal-tracker-backend-5du5.onrender.com";
 
-  const [page, setPage] = useState("dashboard");
+function App() {
+  const [loggedIn, setLoggedIn] =
+    useState(false);
+
+  const [role, setRole] =
+    useState("Employee");
+
+  const [page, setPage] =
+    useState("dashboard");
 
   const [goals, setGoals] = useState([]);
 
-  const [goalTitle, setGoalTitle] = useState("");
-  const [target, setTarget] = useState("");
+  const [goalTitle, setGoalTitle] =
+    useState("");
+
+  const [target, setTarget] =
+    useState("");
+
   const [uom, setUom] = useState("");
-  const [weightage, setWeightage] = useState("");
-  const [status, setStatus] = useState("Pending");
+
+  const [weightage, setWeightage] =
+    useState("");
+
+  const [status, setStatus] =
+    useState("Pending");
 
   // FETCH GOALS
   useEffect(() => {
-    fetch("http://localhost:5000/goals")
+    fetch(`${API}/goals`)
       .then((res) => res.json())
       .then((data) => setGoals(data));
   }, []);
@@ -24,11 +39,12 @@ function App() {
   // LOGIN
   const login = async () => {
     const response = await fetch(
-      "http://localhost:5000/login",
+      `${API}/login`,
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type":
+            "application/json",
         },
         body: JSON.stringify({ role }),
       }
@@ -59,24 +75,36 @@ function App() {
     }
 
     if (Number(weightage) < 10) {
-      alert("Minimum weightage is 10%");
+      alert(
+        "Minimum weightage is 10%"
+      );
       return;
     }
 
     if (goals.length >= 8) {
-      alert("Maximum 8 goals allowed");
+      alert(
+        "Maximum 8 goals allowed"
+      );
       return;
     }
 
     const totalWeightage =
       goals.reduce(
         (sum, goal) =>
-          sum + Number(goal.weightage.replace("%", "")),
+          sum +
+          Number(
+            goal.weightage.replace(
+              "%",
+              ""
+            )
+          ),
         0
       ) + Number(weightage);
 
     if (totalWeightage > 100) {
-      alert("Total weightage cannot exceed 100%");
+      alert(
+        "Total weightage cannot exceed 100%"
+      );
       return;
     }
 
@@ -90,11 +118,12 @@ function App() {
     };
 
     const response = await fetch(
-      "http://localhost:5000/goals",
+      `${API}/goals`,
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type":
+            "application/json",
         },
         body: JSON.stringify(newGoal),
       }
@@ -165,28 +194,36 @@ function App() {
 
         <button
           style={styles.menuBtn}
-          onClick={() => setPage("dashboard")}
+          onClick={() =>
+            setPage("dashboard")
+          }
         >
           Dashboard
         </button>
 
         <button
           style={styles.menuBtn}
-          onClick={() => setPage("goals")}
+          onClick={() =>
+            setPage("goals")
+          }
         >
           Goals
         </button>
 
         <button
           style={styles.menuBtn}
-          onClick={() => setPage("checkins")}
+          onClick={() =>
+            setPage("checkins")
+          }
         >
           Check-ins
         </button>
 
         <button
           style={styles.menuBtn}
-          onClick={() => setPage("reports")}
+          onClick={() =>
+            setPage("reports")
+          }
         >
           Reports
         </button>
@@ -201,12 +238,13 @@ function App() {
 
       {/* Main */}
       <div style={styles.main}>
-        {/* Dashboard */}
         {page === "dashboard" && (
           <>
             <h1>{role} Dashboard</h1>
 
-            <div style={styles.cardContainer}>
+            <div
+              style={styles.cardContainer}
+            >
               <div style={styles.card}>
                 <h2>{goals.length}</h2>
                 <p>Total Goals</p>
@@ -222,24 +260,32 @@ function App() {
                 <p>Performance</p>
               </div>
 
-              {role === "Manager" && (
-                <div style={styles.card}>
+              {role ===
+                "Manager" && (
+                <div
+                  style={styles.card}
+                >
                   <h2>12</h2>
-                  <p>Pending Approvals</p>
+                  <p>
+                    Pending Approvals
+                  </p>
                 </div>
               )}
 
               {role === "Admin" && (
-                <div style={styles.card}>
+                <div
+                  style={styles.card}
+                >
                   <h2>25</h2>
-                  <p>Total Employees</p>
+                  <p>
+                    Total Employees
+                  </p>
                 </div>
               )}
             </div>
           </>
         )}
 
-        {/* Goals */}
         {page === "goals" && (
           <>
             <h1>Goal Management</h1>
@@ -251,7 +297,9 @@ function App() {
                 style={styles.input}
                 value={goalTitle}
                 onChange={(e) =>
-                  setGoalTitle(e.target.value)
+                  setGoalTitle(
+                    e.target.value
+                  )
                 }
               />
 
@@ -261,7 +309,9 @@ function App() {
                 style={styles.input}
                 value={target}
                 onChange={(e) =>
-                  setTarget(e.target.value)
+                  setTarget(
+                    e.target.value
+                  )
                 }
               />
 
@@ -269,7 +319,9 @@ function App() {
                 style={styles.input}
                 value={uom}
                 onChange={(e) =>
-                  setUom(e.target.value)
+                  setUom(
+                    e.target.value
+                  )
                 }
               >
                 <option value="">
@@ -278,11 +330,15 @@ function App() {
 
                 <option>Numeric</option>
 
-                <option>Percentage</option>
+                <option>
+                  Percentage
+                </option>
 
                 <option>Timeline</option>
 
-                <option>Zero Based</option>
+                <option>
+                  Zero Based
+                </option>
               </select>
 
               <input
@@ -291,7 +347,9 @@ function App() {
                 style={styles.input}
                 value={weightage}
                 onChange={(e) =>
-                  setWeightage(e.target.value)
+                  setWeightage(
+                    e.target.value
+                  )
                 }
               />
 
@@ -299,12 +357,18 @@ function App() {
                 style={styles.input}
                 value={status}
                 onChange={(e) =>
-                  setStatus(e.target.value)
+                  setStatus(
+                    e.target.value
+                  )
                 }
               >
                 <option>Pending</option>
-                <option>On Track</option>
-                <option>Completed</option>
+                <option>
+                  On Track
+                </option>
+                <option>
+                  Completed
+                </option>
               </select>
 
               <button
@@ -319,11 +383,25 @@ function App() {
               <table style={styles.table}>
                 <thead>
                   <tr>
-                    <th style={styles.th}>Goal</th>
-                    <th style={styles.th}>Target</th>
-                    <th style={styles.th}>UoM</th>
-                    <th style={styles.th}>Weightage</th>
-                    <th style={styles.th}>Status</th>
+                    <th style={styles.th}>
+                      Goal
+                    </th>
+
+                    <th style={styles.th}>
+                      Target
+                    </th>
+
+                    <th style={styles.th}>
+                      UoM
+                    </th>
+
+                    <th style={styles.th}>
+                      Weightage
+                    </th>
+
+                    <th style={styles.th}>
+                      Status
+                    </th>
                   </tr>
                 </thead>
 
@@ -357,19 +435,31 @@ function App() {
           </>
         )}
 
-        {/* Check-ins */}
         {page === "checkins" && (
           <>
-            <h1>Quarterly Check-ins</h1>
+            <h1>
+              Quarterly Check-ins
+            </h1>
 
             <div style={styles.tableBox}>
               <table style={styles.table}>
                 <thead>
                   <tr>
-                    <th style={styles.th}>Goal</th>
-                    <th style={styles.th}>Planned</th>
-                    <th style={styles.th}>Achievement</th>
-                    <th style={styles.th}>Manager Comment</th>
+                    <th style={styles.th}>
+                      Goal
+                    </th>
+
+                    <th style={styles.th}>
+                      Planned
+                    </th>
+
+                    <th style={styles.th}>
+                      Achievement
+                    </th>
+
+                    <th style={styles.th}>
+                      Manager Comment
+                    </th>
                   </tr>
                 </thead>
 
@@ -399,12 +489,13 @@ function App() {
           </>
         )}
 
-        {/* Reports */}
         {page === "reports" && (
           <>
             <h1>Reports</h1>
 
-            <div style={styles.cardContainer}>
+            <div
+              style={styles.cardContainer}
+            >
               <div style={styles.card}>
                 <h2>25</h2>
                 <p>Total Employees</p>
@@ -444,7 +535,8 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "15px",
-    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+    boxShadow:
+      "0 0 10px rgba(0,0,0,0.1)",
   },
 
   page: {
@@ -497,7 +589,8 @@ const styles = {
     padding: "25px",
     borderRadius: "12px",
     minWidth: "180px",
-    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+    boxShadow:
+      "0 0 10px rgba(0,0,0,0.1)",
   },
 
   goalBox: {
@@ -508,7 +601,8 @@ const styles = {
     flexDirection: "column",
     gap: "15px",
     width: "700px",
-    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+    boxShadow:
+      "0 0 10px rgba(0,0,0,0.1)",
   },
 
   input: {
@@ -531,7 +625,8 @@ const styles = {
     backgroundColor: "white",
     padding: "30px",
     borderRadius: "12px",
-    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+    boxShadow:
+      "0 0 10px rgba(0,0,0,0.1)",
   },
 
   table: {
